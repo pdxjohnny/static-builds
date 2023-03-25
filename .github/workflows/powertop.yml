@@ -17,7 +17,7 @@ jobs:
         repository: fenrus75/powertop
     - name: build
       run: |
-        sudo apt install libpci-dev libnl-3-dev libnl-genl-3-dev gettext libgettextpo-dev autopoint gettext libncurses5-dev libncursesw5-dev libtool-bin dh-autoreconf autoconf-archive pkg-config libtracefs-dev
+        sudo apt install libpci-dev libnl-3-dev libnl-genl-3-dev gettext libgettextpo-dev autopoint gettext libncurses5-dev libncursesw5-dev libtool-bin dh-autoreconf autoconf-archive pkg-config libtracefs libtracefs-dev
         ./autogen.sh
         # https://github.com/tpm2-software/tpm2-tss/blob/3d3c9a81db1354fe75dd27f5a87551c101034b0d/.ci/docker.run#L35-L37
         ./configure --disable-shared
