@@ -22,17 +22,23 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: stable
-      - run: |
+      - name: Update go modules with vendors deps
+        run: |
           go mod vendor
+      - name: Fixup git tag to include vendoring
+        env:
+          GIT_REMOTE_ORIGIN_URL: ${{ github.repositoryUrl }}
+        run: |
           git add -A
           git config user.email "alice@chadig.com"
           git config user.name "Alice Alchemy"
           git commit -sm "Vendor that shit homie $(git log -n 1 | head -n 1)"
           git tag -f "$(git describe --tags)"
+          git remote set-url origin "${GIT_REMOTE_ORIGIN_URL}"
       - uses: goreleaser/goreleaser-action@v4
         with:
           distribution: goreleaser
-          version: 2fa
+          version: latest
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
