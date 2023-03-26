@@ -9,7 +9,7 @@ on:
     - ".github/workflows/2fa.yml"
 
 jobs:
-  2fa:
+  twofa:
     runs-on: ubuntu-latest
     permissions:
       contents: write
