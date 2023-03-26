@@ -28,11 +28,10 @@ jobs:
         make -j $(($(nproc)*4))
         find .
     - uses: "marvinpinto/action-automatic-releases@4edd7a5aabb1bc62e6dc99b3302d587bf3134e20"
-      if: false
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "powertop"
         prerelease: true
         title: "powertop"
         files: |
-          work/tmux-static/local/bin/tmux
+          src/powertop
