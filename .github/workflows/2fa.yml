@@ -14,25 +14,18 @@ jobs:
     permissions:
       contents: write
     steps:
-    - uses: actions/checkout@v3
-      with:
-        repository: rsc/2fa
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: 1.20
-    - name: Build
-      env:
-        CGO_ENABLED: 0
-        GOOS: linux
-        GOARCH: arm64
-      run: |
-        go build -tags osusergo,netgo -o 2fa-aarch64 .
-    - uses: "marvinpinto/action-automatic-releases@4edd7a5aabb1bc62e6dc99b3302d587bf3134e20"
-      with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "2fa"
-        prerelease: true
-        title: "2fa"
-        files: |
-          2fa-aarch64
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          repository: rsc/2fa
+      - run: git fetch --force --tags
+      - uses: actions/setup-go@v4
+        with:
+          go-version: stable
+      - uses: goreleaser/goreleaser-action@v4
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
